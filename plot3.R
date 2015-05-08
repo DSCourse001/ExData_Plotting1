@@ -10,7 +10,6 @@ Sys.setlocale(category = "LC_ALL", locale = "C")
 url<-"https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip"
 txt<-"household_power_consumption.txt"
 
-# Uncompress Zip File
 tmpZIPFile <- tempfile()
 download.file(url=url,destfile=tmpZIPFile,method="wget",quiet=T,mode="wb",extra=c("--no-check-certificate"))
 unzip(tmpZIPFile,files=c(txt),overwrite = TRUE)
@@ -27,6 +26,7 @@ unlink(txt)
 
 # Filter Raw by Date
 data <- data[data$Date == "2/2/2007" | data$Date == "1/2/2007", ]
+
 # Convert Time
 data<-transform(data,
                 Time = as.POSIXct(
@@ -36,6 +36,7 @@ data<-transform(data,
                 )
                 ,Date = NULL
 )
+
 # Change all Types except "Time" to Numeric
 for (n in names(data)) {
   if (!(n %in% c("Time"))) {
